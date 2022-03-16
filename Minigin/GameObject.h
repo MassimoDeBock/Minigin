@@ -21,7 +21,7 @@ namespace dae
 		void SetRelativePosition(float x, float y);
 		void SetAbsolutePosition(float x, float y);
 
-		void AddComponent(const std::shared_ptr<Component> component);
+		//void AddComponent(const std::shared_ptr<Component> component);
 
 
 		GameObject();
@@ -38,19 +38,14 @@ namespace dae
 	private:
 
 	public:
+		template <typename T> T* GetComponent() const;
+		template <typename T> T* AddComponent(T* component);
 
 
 	private:
 		std::weak_ptr<Transform> m_OriginTransform;
 		std::shared_ptr<Transform> m_RelativeTransform;
-
-
-
-		//templated functions
 	public:
-		//template <typename T> std::weak_ptr<T> getComponent();
-		template <typename T> T* GetComponent<T*>() const;
-		/*	template <typename T> void AddComponent(const std::shared_ptr<T> component);*/
 	};
 
 }

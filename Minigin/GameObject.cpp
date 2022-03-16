@@ -51,36 +51,32 @@ void dae::GameObject::SetAbsolutePosition(float x, float y)
 	}
 }
 
-void dae::GameObject::AddComponent(const std::shared_ptr<Component> component)
-{
-	std::type_index id{ typeid(component.get()) };
-	std::shared_ptr<Component> ow = component;
-	m_Components.insert(std::pair<std::type_index, std::shared_ptr<Component>>(typeid(component.get()), component));
-}
-
-//template<typename T>
-//void dae::GameObject::AddComponent(const std::shared_ptr<T> component)
+//void dae::GameObject::AddComponent(const std::shared_ptr<Component> component)
 //{
-//
-//	m_Components.insert(std::make_pair<std::type_index, std::shared_ptr<T>>(typeid(component.get()), component));
-//
-//}
-
-//template<typename T>
-//inline std::weak_ptr<T> dae::GameObject::getComponent()
-//{
-//	auto componentFound{ m_Components.find(std::type_index(typeid(T))) };
-//	if (componentFound != m_Components.end()) {
-//		return componentFound->second;
-//	}
-//	return std::weak_ptr<T>();
+//	std::type_index id{ typeid(component.get()) };
+//	std::shared_ptr<Component> ow = component;
+//	m_Components.insert(std::pair<std::type_index, std::shared_ptr<Component>>(typeid(component.get()), component));
 //}
 
 template<typename T>
-T* dae::GameObject::GetComponent()
+T* dae::GameObject::GetComponent() const
 {
+	std::unordered_map<std::type_index, std::shared_ptr<Component>>::const_iterator compIt = m_Components.find(typeid(T))->second;
+	if (compIt != m_Components.end) {
+		return T;
+	}
 	return nullptr;
 }
+
+template<typename T>
+T* dae::GameObject::AddComponent(T* component)
+{
+	Component c = static_cast<Component>(component);
+	c.SetParent(this);
+	m_Components.insert(std::pair<std::type_index, std::shared_ptr<Component>>(typeid(component)), std::make_shared(component));
+	return component;
+}
+
 
 dae::Transform dae::GameObject::GetAbsoluteTransform() const
 {

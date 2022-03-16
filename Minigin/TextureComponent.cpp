@@ -4,8 +4,7 @@
 #include "GameObject.h"
 #include "Renderer.h"
 
-dae::TextureComponent::TextureComponent(GameObject& gameObjectRef, const std::string& filename)
-	:Component(gameObjectRef)
+dae::TextureComponent::TextureComponent(const std::string& filename)
 {
 	SetTexture(filename);
 }

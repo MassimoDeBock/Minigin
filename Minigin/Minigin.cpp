@@ -60,13 +60,11 @@ void dae::Minigin::LoadGame() const
 	//go->SetTexture("background.jpg");
 	//scene.Add(go);
 	auto go = std::make_shared<GameObject>();
-	std::shared_ptr<TextureComponent> tempTextureComponent = std::make_shared<TextureComponent>(*go, "background.jpg");
-	go->AddComponent(tempTextureComponent);
+	go->AddComponent<TextureComponent>(new TextureComponent("background.jpg"));
 	scene.Add(go);
 
 	go = std::make_shared<GameObject>();
-	tempTextureComponent = std::make_shared<TextureComponent>(*go, "logo.png");
-	go->AddComponent(tempTextureComponent);
+	go->AddComponent<TextureComponent>(new TextureComponent("logo.png"));
 	go->SetAbsolutePosition(216, 180);
 	scene.Add(go);
 

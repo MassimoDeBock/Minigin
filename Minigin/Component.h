@@ -6,15 +6,13 @@ namespace dae {
 	{
 		//functions
 	public:
-		Component(GameObject& parentGameObject);
-
-
-		Component() = delete;
+		Component();
 		virtual ~Component() = default;
 		Component(const Component& other) = delete;
 		Component(Component&& other) = delete;
 		Component& operator=(const Component& other) = delete;
 		Component& operator=(Component&& other) = delete;
+		void SetParent(GameObject& parentGameObject);
 
 	private:
 

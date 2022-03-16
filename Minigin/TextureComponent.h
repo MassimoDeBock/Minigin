@@ -7,7 +7,7 @@ namespace dae {
 	{
 	public:
 		std::shared_ptr<Texture2D> m_Texture{};
-		TextureComponent(GameObject& gameObjectRef, const std::string& filename);
+		TextureComponent(const std::string& filename);
 
 		void SetTexture(const std::string& filename);
 		void Update() override;

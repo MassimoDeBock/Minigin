@@ -2,7 +2,10 @@
 #include "Component.h"
 
 
-dae::Component::Component(GameObject& parentGameObjectRef) 
-	:m_GameObjectRef(&parentGameObjectRef)
+dae::Component::Component() 
 {
+}
+
+void dae::Component::SetParent(GameObject& parentGameObjectRef) {
+	m_GameObjectRef = &parentGameObjectRef;
 }
