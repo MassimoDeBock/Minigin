@@ -12,7 +12,7 @@ namespace dae {
 		Component(Component&& other) = delete;
 		Component& operator=(const Component& other) = delete;
 		Component& operator=(Component&& other) = delete;
-		void SetParent(GameObject* parentGameObject);
+		virtual void SetParent(GameObject* parentGameObject);
 
 	private:
 

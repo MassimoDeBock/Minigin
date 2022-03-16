@@ -7,6 +7,8 @@
 #include "ResourceManager.h"
 #include "GameObject.h"
 #include "TextureComponent.h"
+#include "TextComponent.h"
+#include "FPSComponent.h"
 #include "Scene.h"
 
 using namespace std;
@@ -60,16 +62,23 @@ void dae::Minigin::LoadGame() const
 	go->AddComponent<TextureComponent>(new TextureComponent("background.jpg"));
 	scene.Add(go);
 
+
 	go = std::make_shared<GameObject>();
 	go->AddComponent<TextureComponent>(new TextureComponent("logo.png"));
 	go->SetAbsolutePosition(216, 180);
 	scene.Add(go);
 
-	//auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-	//auto to = std::make_shared<TextObject>("Programming 4 Assignment", font);
+
+	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
+	go = std::make_shared<GameObject>();
+	go->AddComponent<TextComponent>(new TextComponent("Programming 4 Assignment", font));
+	go->SetAbsolutePosition(80, 20);
+	scene.Add(go);
 	
-	//to->SetPosition(80, 20);
-	//scene.Add(to);
+	
+	go = std::make_shared<GameObject>();
+	go->AddComponent<FPSComponent>(new FPSComponent());
+	scene.Add(go);
 }
 
 void dae::Minigin::Cleanup()

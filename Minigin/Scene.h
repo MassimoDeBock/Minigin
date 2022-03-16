@@ -14,6 +14,7 @@ namespace dae
 		void Update(float deltaTime);
 		void Render() const;
 		float GetDeltaTime();
+
 		unsigned int AssignId();
 
 		~Scene();
