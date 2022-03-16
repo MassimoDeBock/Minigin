@@ -6,6 +6,6 @@ dae::Component::Component()
 {
 }
 
-void dae::Component::SetParent(GameObject& parentGameObjectRef) {
-	m_GameObjectRef = &parentGameObjectRef;
+void dae::Component::SetParent(GameObject* parentGameObjectRef) {
+	m_GameObjectRef = parentGameObjectRef;
 }

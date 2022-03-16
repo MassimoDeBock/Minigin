@@ -12,7 +12,7 @@ namespace dae {
 		Component(Component&& other) = delete;
 		Component& operator=(const Component& other) = delete;
 		Component& operator=(Component&& other) = delete;
-		void SetParent(GameObject& parentGameObject);
+		void SetParent(GameObject* parentGameObject);
 
 	private:
 
@@ -23,7 +23,7 @@ namespace dae {
 		virtual void Render()const = 0;
 
 	protected:
-		GameObject* m_GameObjectRef;
+		GameObject* m_GameObjectRef =nullptr;
 
 	};
 }

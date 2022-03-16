@@ -64,7 +64,7 @@ void dae::Minigin::LoadGame() const
 	scene.Add(go);
 
 	go = std::make_shared<GameObject>();
-	go->AddComponent<TextureComponent>(new TextureComponent("logo.png"));
+	//go->AddComponent<TextureComponent>(new TextureComponent("logo.png"));
 	go->SetAbsolutePosition(216, 180);
 	scene.Add(go);
 

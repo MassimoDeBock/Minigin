@@ -31,7 +31,7 @@ namespace dae
 		GameObject& operator=(const GameObject& other) = delete;
 		GameObject& operator=(GameObject&& other) = delete;
 
-		std::unordered_map<std::type_index, std::shared_ptr<Component>> m_Components;
+		std::unordered_map<std::type_index, Component*> m_Components;
 		Transform GetAbsoluteTransform() const;
 
 
@@ -39,7 +39,12 @@ namespace dae
 
 	public:
 		template <typename T> T* GetComponent() const;
-		template <typename T> T* AddComponent(T* component);
+		template <typename T> void AddComponent(T* component) {
+			if (Component* comp = dynamic_cast<Component*>(component); comp != nullptr) {
+				comp->SetParent(this);
+				m_Components.insert(std::pair<std::type_index, Component*>(typeid(component), comp));
+			}
+		};
 
 
 	private:
@@ -49,3 +54,4 @@ namespace dae
 	};
 
 }
+
