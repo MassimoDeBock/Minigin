@@ -66,14 +66,20 @@ void dae::GameObject::AddComponent(const std::shared_ptr<Component> component)
 //
 //}
 
+//template<typename T>
+//inline std::weak_ptr<T> dae::GameObject::getComponent()
+//{
+//	auto componentFound{ m_Components.find(std::type_index(typeid(T))) };
+//	if (componentFound != m_Components.end()) {
+//		return componentFound->second;
+//	}
+//	return std::weak_ptr<T>();
+//}
+
 template<typename T>
-inline std::weak_ptr<T> dae::GameObject::getComponent()
+T* dae::GameObject::GetComponent()
 {
-	auto componentFound{ m_Components.find(std::type_index(typeid(T))) };
-	if (componentFound != m_Components.end()) {
-		return componentFound->second;
-	}
-	return std::weak_ptr<T>();
+	return nullptr;
 }
 
 dae::Transform dae::GameObject::GetAbsoluteTransform() const
@@ -84,3 +90,4 @@ dae::Transform dae::GameObject::GetAbsoluteTransform() const
 	}
 	return *m_RelativeTransform.get();
 }
+

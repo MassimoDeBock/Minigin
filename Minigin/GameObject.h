@@ -10,7 +10,7 @@
 namespace dae
 {
 	class Texture2D;
-	class GameObject final: public SceneObject
+	class GameObject final : public SceneObject
 	{
 	public:
 		void Update() override;
@@ -48,8 +48,9 @@ namespace dae
 
 		//templated functions
 	public:
-		template <typename T> std::weak_ptr<T> getComponent();
-	/*	template <typename T> void AddComponent(const std::shared_ptr<T> component);*/
+		//template <typename T> std::weak_ptr<T> getComponent();
+		template <typename T> T* GetComponent<T*>() const;
+		/*	template <typename T> void AddComponent(const std::shared_ptr<T> component);*/
 	};
 
 }
