@@ -134,7 +134,6 @@ void dae::Minigin::GameLoop()
 	}
 }
 
-
 void dae::Minigin::Update(float time)
 {
 	++time;
