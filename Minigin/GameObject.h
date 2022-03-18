@@ -14,6 +14,7 @@ namespace dae
 	{
 	public:
 		void Update() override;
+		void FixedUpdate() override;
 		void Render() const override;
 
 		void SetId(unsigned int id);

@@ -6,8 +6,7 @@ using namespace dae;
 
 unsigned int Scene::m_IdCounter = 0;
 
-Scene::Scene(const std::string& name) : m_Name(name), m_deltaTime(0.0f) {}
-
+Scene::Scene(const std::string& name, float fixedTimeStep) : m_Name(name), m_deltaTime(0.0f), m_FixedTimeStep(fixedTimeStep) {}
 Scene::~Scene() = default;
 
 void Scene::Add(const std::shared_ptr<SceneObject>&object)
@@ -26,6 +25,14 @@ void Scene::Update(float deltaTime)
 	}
 }
 
+void dae::Scene::FixedUpdate()
+{
+	for (auto& object : m_Objects)
+	{
+		object->FixedUpdate();
+	}
+}
+
 void Scene::Render() const
 {
 	for (const auto& object : m_Objects)
@@ -37,6 +44,11 @@ void Scene::Render() const
 float dae::Scene::GetDeltaTime()
 {
 	return m_deltaTime;
+}
+
+float dae::Scene::GetFixedTimeStep()
+{
+	return m_FixedTimeStep;
 }
 
 unsigned int dae::Scene::AssignId()

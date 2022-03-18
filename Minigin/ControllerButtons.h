@@ -18,4 +18,11 @@ namespace dae {
 		X = 0x4000,
 		Y = 0x8000
 	};
+
+	enum class ButtonStates {
+		Pressed,
+		Down,
+		Released,
+		Up
+	};
 }

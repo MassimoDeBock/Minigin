@@ -24,23 +24,58 @@ struct dae::InputManager::Impl
 			delete* it;
 		}
 	}
-
-	//bool isConnected[XUSER_MAX_COUNT]{ false };
-
 	std::vector<CommandList*> commandList;
 };
 
 
 
-void dae::InputManager::AddPressedCommandsToController(unsigned int controllerNumber, ControllerButton buttonID, Command* command)
+void dae::InputManager::AddCommandsToController(unsigned int controllerNumber, ControllerButton buttonID, ButtonStates state, Command* command)
 {
-	pimpl->commandList.at(controllerNumber)->AddPressedCommand(buttonID, command);
+	switch (state)
+	{
+	case dae::ButtonStates::Pressed:
+		pimpl->commandList.at(controllerNumber)->AddPressedCommand(buttonID, command);
+		break;
+	case dae::ButtonStates::Down:
+		pimpl->commandList.at(controllerNumber)->AddDownCommand(buttonID, command);
+		break;
+	case dae::ButtonStates::Released:
+		pimpl->commandList.at(controllerNumber)->AddReleasedCommand(buttonID, command);
+		break;
+	case dae::ButtonStates::Up:
+		pimpl->commandList.at(controllerNumber)->AddUpCommand(buttonID, command);
+		break;
+	default:
+		break;
+	}
+
 }
 
-void dae::InputManager::SwapPressedCommandsToController(unsigned int controllerNumber, ControllerButton buttonID, Command* command)
+void dae::InputManager::SwapCommandsToController(unsigned int controllerNumber, ControllerButton buttonID, ButtonStates state, Command* command)
 {
-	pimpl->commandList.at(controllerNumber)->RemovePressedCommand(buttonID);
-	AddPressedCommandsToController(controllerNumber, buttonID, command);
+	RemoveCommandsFromController(controllerNumber, buttonID, state);
+	AddCommandsToController(controllerNumber, buttonID, state, command);
+}
+
+void dae::InputManager::RemoveCommandsFromController(unsigned int controllerNumber, ControllerButton buttonID, ButtonStates state)
+{
+	switch (state)
+	{
+	case dae::ButtonStates::Pressed:
+		pimpl->commandList.at(controllerNumber)->RemovePressedCommand(buttonID);
+		break;
+	case dae::ButtonStates::Down:
+		pimpl->commandList.at(controllerNumber)->RemoveDownCommand(buttonID);
+		break;
+	case dae::ButtonStates::Released:
+		pimpl->commandList.at(controllerNumber)->RemoveReleasedCommand(buttonID);
+		break;
+	case dae::ButtonStates::Up:
+		pimpl->commandList.at(controllerNumber)->RemoveUpCommand(buttonID);
+		break;
+	default:
+		break;
+	}
 }
 
 
@@ -55,7 +90,10 @@ dae::InputManager::~InputManager()
 
 
 bool dae::InputManager::ProcessInput()
-{
+{	
+	for (DWORD i = 0; i < XUSER_MAX_COUNT; i++) {
+		pimpl->commandList.at(i)->ProcessInput();
+	}
 	SDL_Event e;
 	while (SDL_PollEvent(&e)) {
 		if (e.type == SDL_QUIT) {
@@ -67,10 +105,8 @@ bool dae::InputManager::ProcessInput()
 
 		}
 	}
+	HandleInput();
 
-	for (DWORD i = 0; i < XUSER_MAX_COUNT; i++) {
-		pimpl->commandList.at(i)->ProcessInput();
-	}
 	return true;
 }
 

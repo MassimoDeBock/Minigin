@@ -10,6 +10,14 @@ void dae::SceneManager::Update(float deltaTime)
 	}
 }
 
+void dae::SceneManager::FixedUpdate()
+{
+	for (auto& scene : m_Scenes)
+	{
+		scene->FixedUpdate();
+	}
+}
+
 void dae::SceneManager::Render()
 {
 	for (const auto& scene : m_Scenes)
@@ -18,9 +26,19 @@ void dae::SceneManager::Render()
 	}
 }
 
+void dae::SceneManager::SetFixedTimeStep(float newFixedTimeStep)
+{
+	m_FixedTimeStep = newFixedTimeStep;
+}
+
+float dae::SceneManager::GetFixedTimeStep()
+{
+	return m_FixedTimeStep;
+}
+
 dae::Scene& dae::SceneManager::CreateScene(const std::string& name)
 {
-	const auto& scene = std::shared_ptr<Scene>(new Scene(name));
+	const auto& scene = std::shared_ptr<Scene>(new Scene(name,m_FixedTimeStep));
 	m_Scenes.push_back(scene);
 	return *scene;
 }

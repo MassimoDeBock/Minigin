@@ -12,8 +12,10 @@ namespace dae
 		void Add(const std::shared_ptr<SceneObject>& object);
 
 		void Update(float deltaTime);
+		void FixedUpdate();
 		void Render() const;
 		float GetDeltaTime();
+		float GetFixedTimeStep();
 
 		unsigned int AssignId();
 
@@ -24,9 +26,10 @@ namespace dae
 		Scene& operator=(Scene&& other) = delete;
 
 	private:
-		explicit Scene(const std::string& name);
+		explicit Scene(const std::string& name, float fixedTimeStep);
 
 		float m_deltaTime;
+		const float m_FixedTimeStep;
 		std::string m_Name;
 		std::vector < std::shared_ptr<SceneObject>> m_Objects{};
 		//	std::vector <std::pair<unsigned int,GraphicsComponent*>> m_GraphicsComponents{};

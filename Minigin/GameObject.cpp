@@ -24,6 +24,13 @@ void dae::GameObject::Update() {
 	}
 }
 
+void dae::GameObject::FixedUpdate()
+{
+	for (auto const& x : m_Components) {
+		x.second->FixedUpdate();
+	}
+}
+
 void dae::GameObject::Render() const
 {
 	for (auto const& x : m_Components) {
@@ -37,8 +44,6 @@ void dae::GameObject::SetId(unsigned int id)
 		m_id = id;
 	}
 }
-
-
 
 void dae::GameObject::SetRelativePosition(float x, float y)
 {
@@ -57,13 +62,6 @@ void dae::GameObject::SetAbsolutePosition(float x, float y)
 	}
 }
 
-//void dae::GameObject::AddComponent(const std::shared_ptr<Component> component)
-//{
-//	std::type_index id{ typeid(component.get()) };
-//	std::shared_ptr<Component> ow = component;
-//	m_Components.insert(std::pair<std::type_index, std::shared_ptr<Component>>(typeid(component.get()), component));
-//}
-
 template<typename T>
 T* dae::GameObject::GetComponent() const
 {
@@ -73,17 +71,6 @@ T* dae::GameObject::GetComponent() const
 	}
 	return nullptr;
 }
-
-//template<typename T>
-//T* dae::GameObject::AddComponent(T * component)
-//{
-//	reinterpret_cast<Component*>(component)->SetParent(this);
-//	m_Components.insert(std::pair<std::type_index, std::shared_ptr<Component>>(typeid(component)), std::make_shared(component));
-//	return component;
-//};
-
-
-
 
 dae::Transform dae::GameObject::GetAbsoluteTransform() const
 {

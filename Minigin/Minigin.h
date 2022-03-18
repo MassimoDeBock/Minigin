@@ -11,8 +11,6 @@ namespace dae
 		void Cleanup();
 		void Run();
 		void GameLoop();
-		void Update(float time);
-		void FixedUpdate(float timestep);
 
 	private:
 		static const int MsPerFrame = 16; //16 for 60 fps, 33 for 30 fps

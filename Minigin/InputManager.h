@@ -10,8 +10,9 @@ namespace dae
 	public:
 		InputManager();
 		~InputManager();
-		void AddPressedCommandsToController(unsigned int controllerNumber, ControllerButton buttonID, Command* command);
-		void SwapPressedCommandsToController(unsigned int controllerNumber, ControllerButton buttonID, Command* command);
+		void AddCommandsToController(unsigned int controllerNumber, ControllerButton buttonID, ButtonStates state, Command* command);
+		void SwapCommandsToController(unsigned int controllerNumber, ControllerButton buttonID, ButtonStates state, Command* command);
+		void RemoveCommandsFromController(unsigned int controllerNumber, ControllerButton buttonID, ButtonStates state);
 
 		bool ProcessInput();
 		bool HandleInput();

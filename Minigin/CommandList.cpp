@@ -72,19 +72,20 @@ void dae::CommandList::SetUserNumber(unsigned int num)
 }
 
 void dae::CommandList::CheckPressedCommand()
-{
+{	
 	for (auto& it : m_PressedCommands) {
 		if (IsPressed(it.first)) {
-			it.second->execute();
+			it.second->Execute();
 		}
 	}
+
 }
 
 void dae::CommandList::CheckDownCommand()
 {
 	for (auto& it : m_DownCommands) {
 		if (IsDown(it.first)) {
-			it.second->execute();
+			it.second->Execute();
 		}
 	}
 }
@@ -93,7 +94,7 @@ void dae::CommandList::CheckReleasedCommand()
 {
 	for (auto& it : m_ReleasedCommands) {
 		if (IsReleased(it.first)) {
-			it.second->execute();
+			it.second->Execute();
 		}
 	}
 }
@@ -102,14 +103,13 @@ void dae::CommandList::CheckUpCommand()
 {
 	for (auto& it : m_UpCommands) {
 		if (IsUp(it.first)) {
-			it.second->execute();
+			it.second->Execute();
 		}
 	}
 }
 
 void dae::CommandList::ProcessInput()
 {
-
 	if (m_Controller->isConnected) {
 		DWORD dwResult;
 		XINPUT_STATE tempState{};

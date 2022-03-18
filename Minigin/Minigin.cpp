@@ -10,6 +10,7 @@
 #include "TextComponent.h"
 #include "FPSComponent.h"
 #include "Scene.h"
+#include "MessageCommand.h"
 
 using namespace std;
 
@@ -106,6 +107,7 @@ void dae::Minigin::GameLoop()
 {
 	auto& renderer = Renderer::GetInstance();
 	auto& sceneManager = SceneManager::GetInstance();
+	sceneManager.SetFixedTimeStep(fixedTimeStep);
 	auto& input = InputManager::GetInstance();
 
 	// todo: this update loop could use some work.
@@ -114,6 +116,7 @@ void dae::Minigin::GameLoop()
 	float lag = 0.0f;
 
 	input.CheckConnections();
+	input.AddCommandsToController(0, ControllerButton::A, ButtonStates::Down, new MessageCommand(std::string("oo")));
 
 	while (doContinue)
 	{
@@ -123,7 +126,7 @@ void dae::Minigin::GameLoop()
 		lag += deltaTime;
 		doContinue = input.ProcessInput();
 		while (lag >= fixedTimeStep) {
-			//FixedUpdate(fixedTimeStep);
+			//FixedUpdate();
 			lag -= fixedTimeStep;
 		}
 		sceneManager.Update(deltaTime);
@@ -131,14 +134,4 @@ void dae::Minigin::GameLoop()
 		const auto sleepTime = currentTime + std::chrono::milliseconds(MsPerFrame) - std::chrono::high_resolution_clock::now();
 		std::this_thread::sleep_for(sleepTime);
 	}
-}
-
-void dae::Minigin::Update(float time)
-{
-	++time;
-}
-
-void dae::Minigin::FixedUpdate(float timestep)
-{
-	++timestep;
 }
