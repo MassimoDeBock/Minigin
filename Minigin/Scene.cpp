@@ -9,35 +9,39 @@ unsigned int Scene::m_IdCounter = 0;
 Scene::Scene(const std::string& name, float fixedTimeStep) : m_Name(name), m_deltaTime(0.0f), m_FixedTimeStep(fixedTimeStep) {}
 Scene::~Scene() = default;
 
-void Scene::Add(const std::shared_ptr<SceneObject>&object)
+void Scene::Add(const std::string& objectName,const std::shared_ptr<GameObject>&object)
 {
-
 	object.get()->setSceneRef(*this);
-	m_Objects.push_back(object);
+	m_GameObjects.insert(std::pair<std::string, std::shared_ptr<GameObject>>(objectName, object));
+}
+
+GameObject* dae::Scene::GetGameObjects(const std::string& objectName)
+{
+	return m_GameObjects.find(objectName)->second.get();
 }
 
 void Scene::Update(float deltaTime)
 {
 	m_deltaTime = deltaTime;
-	for (auto& object : m_Objects)
+	for (auto& object : m_GameObjects)
 	{
-		object->Update();
+		object.second->Update();
 	}
 }
 
 void dae::Scene::FixedUpdate()
 {
-	for (auto& object : m_Objects)
+	for (auto& object : m_GameObjects)
 	{
-		object->FixedUpdate();
+		object.second->FixedUpdate();
 	}
 }
 
 void Scene::Render() const
 {
-	for (const auto& object : m_Objects)
+	for (const auto& object : m_GameObjects)
 	{
-		object->Render();
+		object.second->Render();
 	}
 }
 

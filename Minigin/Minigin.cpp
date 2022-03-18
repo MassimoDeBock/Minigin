@@ -61,25 +61,27 @@ void dae::Minigin::LoadGame() const
 
 	auto go = std::make_shared<GameObject>();
 	go->AddComponent<TextureComponent>(new TextureComponent("background.jpg"));
-	scene.Add(go);
+	scene.Add("Background", go);
 
 
 	go = std::make_shared<GameObject>();
 	go->AddComponent<TextureComponent>(new TextureComponent("logo.png"));
-	go->SetAbsolutePosition(216, 180);
-	scene.Add(go);
+	go->SetAbsoluteTransform(216, 180);
+	scene.Add("Logo", go);
 
 
 	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
 	go = std::make_shared<GameObject>();
 	go->AddComponent<TextComponent>(new TextComponent("Programming 4 Assignment", font));
-	go->SetAbsolutePosition(80, 20);
-	scene.Add(go);
+	go->SetAbsoluteTransform(80, 20);
+	scene.Add("Text",go);
 	
 	
 	go = std::make_shared<GameObject>();
 	go->AddComponent<FPSComponent>(new FPSComponent());
-	scene.Add(go);
+	go->SetParent(scene.GetGameObjects("Logo"));
+	go->SetRelativeTransform(50, -40);
+	scene.Add("FPSDisplay", go);
 }
 
 void dae::Minigin::Cleanup()

@@ -6,6 +6,7 @@
 #include <typeindex>
 #include <memory>
 #include <unordered_map>
+#include <unordered_set>
 
 namespace dae
 {
@@ -19,8 +20,11 @@ namespace dae
 
 		void SetId(unsigned int id);
 
-		void SetRelativePosition(float x, float y);
-		void SetAbsolutePosition(float x, float y);
+		void SetRelativeTransform(float x, float y);
+		void SetRelativeTransform(const Transform& pos);
+		void SetAbsoluteTransform(float x, float y);
+		void SetAbsoluteTransform(const Transform& pos);
+		void UpdateAbsoluteTransform() const;
 
 		//void AddComponent(const std::shared_ptr<Component> component);
 
@@ -33,11 +37,16 @@ namespace dae
 		GameObject& operator=(GameObject&& other) = delete;
 
 		std::unordered_map<std::type_index, Component*> m_Components;
+		Transform GetRelativeTransform() const;
 		Transform GetAbsoluteTransform() const;
+		void SetTransformDirty();
+
+		void SetParent(GameObject* newParent, bool AbsoluteTransformStays =false);
 
 
 	private:
-
+		void RemoveChild(GameObject* oldChild);
+		void AddChild(GameObject* newChild);
 	public:
 		template <typename T> T* GetComponent() const;
 		template <typename T> void AddComponent(T* component) {
@@ -49,8 +58,14 @@ namespace dae
 
 
 	private:
-		std::weak_ptr<Transform> m_OriginTransform;
-		std::shared_ptr<Transform> m_RelativeTransform;
+		
+
+		mutable bool m_TransformIsDirty{ true };
+		GameObject* m_pParent{nullptr};
+		std::unordered_set<GameObject*> m_Children;
+
+		Transform m_RelativeTransform{};
+		mutable Transform m_AbsoluteTransform{};
 	public:
 	};
 

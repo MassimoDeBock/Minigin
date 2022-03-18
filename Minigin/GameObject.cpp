@@ -5,15 +5,14 @@
 
 
 
-dae::GameObject::GameObject() {
-	m_RelativeTransform = std::make_shared<Transform>();
+dae::GameObject::GameObject() 
+{
 }
 
 
 dae::GameObject::~GameObject() {
 	for (auto& it : m_Components) {
 		delete it.second;
-		it.second = nullptr;
 	}
 	m_Components.clear();
 };
@@ -45,22 +44,65 @@ void dae::GameObject::SetId(unsigned int id)
 	}
 }
 
-void dae::GameObject::SetRelativePosition(float x, float y)
+void dae::GameObject::SetRelativeTransform(float x, float y)
 {
-	m_RelativeTransform.get()->SetPosition(x, y, 0.0f);
+	SetRelativeTransform(Transform(x, y, 0.f));
 }
 
-void dae::GameObject::SetAbsolutePosition(float x, float y)
+void dae::GameObject::SetRelativeTransform(const Transform& pos)
 {
-	if (!m_OriginTransform.expired())
-	{
-		Transform pos = Transform(x, y, 0) - *m_OriginTransform.lock().get();
-		m_RelativeTransform.get()->SetPosition(pos.GetPosition().x, pos.GetPosition().y, pos.GetPosition().z);
+	m_RelativeTransform.SetPosition(pos);
+	SetTransformDirty();
+}
+
+void dae::GameObject::SetAbsoluteTransform(float x, float y)
+{
+	SetAbsoluteTransform(Transform(x, y, 0.f));
+}
+
+void dae::GameObject::SetAbsoluteTransform(const Transform& pos)
+{
+	//	if (!m_OriginTransform.expired())
+//	{
+//		Transform pos = Transform(x, y, 0) - *m_OriginTransform.lock().get();
+//		m_RelativeTransform.SetPosition(pos.GetPosition().x, pos.GetPosition().y, pos.GetPosition().z);
+//	}
+//	else {
+//		m_RelativeTransform.SetPosition(x, y, 0.0f);
+//	}
+	if (m_pParent == nullptr) {
+		m_RelativeTransform.SetPosition(pos);
 	}
 	else {
-		m_RelativeTransform.get()->SetPosition(x, y, 0.0f);
+		m_RelativeTransform.SetPosition(Transform(pos.GetPosition() - m_pParent->GetAbsoluteTransform().GetPosition()));
 	}
+	SetTransformDirty();
 }
+
+void dae::GameObject::UpdateAbsoluteTransform()const
+{
+	if (m_TransformIsDirty) {
+		if (m_pParent == nullptr) {
+			m_AbsoluteTransform = m_RelativeTransform;
+		}
+		else {
+			m_AbsoluteTransform = m_pParent->GetAbsoluteTransform() + m_RelativeTransform;
+		}
+	}
+	m_TransformIsDirty = false;
+}
+
+//void dae::GameObject::SetAbsolutePosition(float x, float y)
+//{
+//	if (!m_OriginTransform.expired())
+//	{
+//		Transform pos = Transform(x, y, 0) - *m_OriginTransform.lock().get();
+//		m_RelativeTransform.SetPosition(pos.GetPosition().x, pos.GetPosition().y, pos.GetPosition().z);
+//	}
+//	else {
+//		m_RelativeTransform.SetPosition(x, y, 0.0f);
+//	}
+//}
 
 template<typename T>
 T* dae::GameObject::GetComponent() const
@@ -72,12 +114,51 @@ T* dae::GameObject::GetComponent() const
 	return nullptr;
 }
 
+dae::Transform dae::GameObject::GetRelativeTransform() const
+{
+	return m_RelativeTransform;
+}
+
 dae::Transform dae::GameObject::GetAbsoluteTransform() const
 {
-	if (!m_OriginTransform.expired())
-	{
-		return Transform(*m_RelativeTransform.get() + *m_OriginTransform.lock().get());
+	if (m_TransformIsDirty) {
+		UpdateAbsoluteTransform();
 	}
-	return *m_RelativeTransform.get();
+	return m_AbsoluteTransform;
+}
+
+void dae::GameObject::SetTransformDirty()
+{
+	m_TransformIsDirty = true;
+}
+
+void dae::GameObject::SetParent(GameObject* newParent, bool AbsoluteTransformStays)
+{
+	if (m_pParent == nullptr) {
+		SetRelativeTransform(GetAbsoluteTransform());
+	}
+	else {
+		if (AbsoluteTransformStays) {
+			SetRelativeTransform(GetRelativeTransform() - m_pParent->GetAbsoluteTransform());
+		}
+		SetTransformDirty();
+	}
+	if (m_pParent) {
+		m_pParent->RemoveChild(this);
+	}
+	m_pParent = newParent;
+	if (m_pParent) {
+		m_pParent->AddChild(this);
+	}
+}
+
+void dae::GameObject::RemoveChild(GameObject* oldChild)
+{
+	m_Children.erase(oldChild);
+}
+
+void dae::GameObject::AddChild(GameObject* newChild)
+{
+	m_Children.insert(newChild);
 }
 

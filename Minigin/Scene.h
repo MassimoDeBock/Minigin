@@ -1,6 +1,7 @@
 #pragma once
 #include "SceneManager.h"
 #include "Component.h"
+#include <unordered_map>
 
 namespace dae
 {
@@ -9,7 +10,8 @@ namespace dae
 	{
 		friend Scene& SceneManager::CreateScene(const std::string& name);
 	public:
-		void Add(const std::shared_ptr<SceneObject>& object);
+		void Add(const std::string& objectName, const std::shared_ptr<GameObject>& object);
+		GameObject* GetGameObjects(const std::string& objectName);
 
 		void Update(float deltaTime);
 		void FixedUpdate();
@@ -31,8 +33,8 @@ namespace dae
 		float m_deltaTime;
 		const float m_FixedTimeStep;
 		std::string m_Name;
-		std::vector < std::shared_ptr<SceneObject>> m_Objects{};
-		//	std::vector <std::pair<unsigned int,GraphicsComponent*>> m_GraphicsComponents{};
+
+		std::unordered_map <std::string ,std::shared_ptr<GameObject>> m_GameObjects;
 		unsigned int m_objIdCounter{ 0 };
 
 		static unsigned int m_IdCounter;
