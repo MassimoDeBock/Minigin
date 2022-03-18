@@ -2,6 +2,7 @@
 #include "BasePlayerController.h"
 
 namespace dae {
+	class MovementComponent;
 	class PeterPepperPlayerController final : public BasePlayerController 
 	{
 	public:
@@ -9,9 +10,9 @@ namespace dae {
 		virtual ~PeterPepperPlayerController();
 		void Update() override;
 		void Render() const override;
-		void BeginPlay() override;
+		void OnAssign() override;
 
 	private:
-
+		MovementComponent* m_MovementComponent{nullptr};
 	};
 }

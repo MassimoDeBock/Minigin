@@ -19,10 +19,11 @@ namespace dae {
 
 		//variables
 	public:
-		virtual void Update() = 0;
+		virtual void OnAssign() {}; //regular constructor doesn't have the owning object yet / this happens after the component is assigned one
+		virtual void Update() {};
 		virtual void FixedUpdate() {};
 		virtual void BeginPlay() {};
-		virtual void Render()const = 0;
+		virtual void Render()const {};
 
 	protected:
 		GameObject* m_GameObjectRef = nullptr;

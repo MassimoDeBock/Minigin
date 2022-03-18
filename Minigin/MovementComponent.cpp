@@ -23,6 +23,16 @@ void dae::MovementComponent::FixedUpdate() {
 	m_GameObjectRef->AddTransform(m_MovementSpeed * m_Velocity);
 }
 
+void dae::MovementComponent::SetMovementSpeed(const Transform& movementSpeed)
+{
+	m_MovementSpeed = movementSpeed;
+}
+
+dae::Transform dae::MovementComponent::GetMovementSpeed()
+{
+	return m_MovementSpeed;
+}
+
 void dae::MovementComponent::SetVelocity(const Transform& newVelocity)
 {
 	m_Velocity = newVelocity;

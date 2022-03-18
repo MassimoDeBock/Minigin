@@ -97,16 +97,6 @@ void dae::GameObject::AddTransform(const Transform& translation)
 	SetTransformDirty();
 }
 
-template<typename T>
-T* dae::GameObject::GetComponent() const
-{
-	std::unordered_map<std::type_index, Component*>::const_iterator compIt = m_Components.find(typeid(T))->second;
-	if (compIt != m_Components.end) {
-		return T(compIt);
-	}
-	return nullptr;
-}
-
 dae::Transform dae::GameObject::GetRelativeTransform() const
 {
 	return m_RelativeTransform;

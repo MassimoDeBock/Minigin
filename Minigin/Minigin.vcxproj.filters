@@ -102,6 +102,9 @@
     <ClInclude Include="PeterPepperPlayerController.h">
       <Filter>Header Files\Custom</Filter>
     </ClInclude>
+    <ClInclude Include="MovementComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MiniginPCH.cpp">
@@ -166,6 +169,9 @@
     </ClCompile>
     <ClCompile Include="PeterPepperPlayerController.cpp">
       <Filter>Source Files\Custom</Filter>
+    </ClCompile>
+    <ClCompile Include="MovementComponent.cpp">
+      <Filter>Source Files\Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

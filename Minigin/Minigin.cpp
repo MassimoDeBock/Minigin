@@ -9,6 +9,7 @@
 #include "TextureComponent.h"
 #include "TextComponent.h"
 #include "FPSComponent.h"
+#include "MovementComponent.h"
 #include "PeterPepperPlayerController.h"
 #include "Scene.h"
 #include "MessageCommand.h"
@@ -61,37 +62,36 @@ void dae::Minigin::LoadGame() const
 	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
 
 	auto go = std::make_shared<GameObject>();
-	go->AddComponent<TextureComponent>(new TextureComponent("background.jpg"));
+	go->AddComponent<TextureComponent>("TextureComponent", new TextureComponent("background.jpg"));
 	scene.Add("Background", go);
 
 
 	go = std::make_shared<GameObject>();
-	go->AddComponent<TextureComponent>(new TextureComponent("logo.png"));
+	go->AddComponent<TextureComponent>("TextureComponent", new TextureComponent("logo.png"));
 	go->SetAbsoluteTransform(216, 180);
 	scene.Add("Logo", go);
 
 
 	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
 	go = std::make_shared<GameObject>();
-	go->AddComponent<TextComponent>(new TextComponent("Programming 4 Assignment", font));
+	go->AddComponent<TextComponent>("TextComponent", new TextComponent("Programming 4 Assignment", font));
 	go->SetAbsoluteTransform(80, 20);
 	scene.Add("Text",go);
 	
 	
 	go = std::make_shared<GameObject>();
-	go->AddComponent<FPSComponent>(new FPSComponent());
+	go->AddComponent<FPSComponent>("FPSComponent", new FPSComponent());
 	go->SetParent(scene.GetGameObjects("Logo"));
 	go->SetRelativeTransform(50, -40);
 	scene.Add("FPSDisplay", go);
 
 
 	go = std::make_shared<GameObject>();
-	go->AddComponent<TextureComponent>(new TextureComponent("Peter_Pepper.png"));
+	go->AddComponent<TextureComponent>("TextureComponent", new TextureComponent("Peter_Pepper.png"));
 	go->SetAbsoluteTransform(400, 400);
-	go->AddComponent<PeterPepperPlayerController>(new PeterPepperPlayerController(0));
-
+	go->AddComponent<PeterPepperPlayerController>("PeterPepperPlayerController", new PeterPepperPlayerController(0));
+	//go->GetComponent<MovementComponent>("MovementComponent")->SetMovementSpeed(Transform(10,10,0));
 	scene.Add("Peter_Pepper", go);
-
 
 
 }

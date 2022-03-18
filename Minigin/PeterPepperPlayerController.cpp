@@ -1,5 +1,7 @@
 #include "MiniginPCH.h"
 #include "PeterPepperPlayerController.h"
+#include "GameObject.h"
+#include "MovementComponent.h"
 
 dae::PeterPepperPlayerController::PeterPepperPlayerController(const int playerID)
 	:BasePlayerController(playerID)
@@ -18,6 +20,8 @@ void dae::PeterPepperPlayerController::Render() const
 {
 }
 
-void dae::PeterPepperPlayerController::BeginPlay()
+void dae::PeterPepperPlayerController::OnAssign()
 {
+	m_MovementComponent = new MovementComponent();
+	m_GameObjectRef->AddComponent("MovementComponent", m_MovementComponent);
 }
