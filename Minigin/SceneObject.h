@@ -7,6 +7,7 @@ namespace dae
 	public:
 		virtual void Update() = 0;
 		virtual void FixedUpdate() = 0;
+		virtual void BeginPlay() = 0;
 		virtual void Render() const = 0;
 		void setSceneRef(Scene& ref) { m_sceneRef = &ref; };
 

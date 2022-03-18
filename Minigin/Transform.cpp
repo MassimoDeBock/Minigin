@@ -59,6 +59,15 @@ dae::Transform dae::Transform::operator-(Transform& right)
 	);
 }
 
+dae::Transform dae::Transform::operator*(Transform& right)
+{
+	return Transform(
+		this->GetPosition().x * right.GetPosition().x,
+		this->GetPosition().y * right.GetPosition().y,
+		this->GetPosition().z * right.GetPosition().z	
+	);
+}
+
 dae::Transform dae::Transform::operator-(const Transform& right)
 {
 	return Transform(

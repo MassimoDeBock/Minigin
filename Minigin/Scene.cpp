@@ -37,6 +37,14 @@ void dae::Scene::FixedUpdate()
 	}
 }
 
+void dae::Scene::BeginPlay()
+{
+	for (auto& object : m_GameObjects)
+	{
+		object.second->BeginPlay();
+	}
+}
+
 void Scene::Render() const
 {
 	for (const auto& object : m_GameObjects)

@@ -30,6 +30,13 @@ void dae::GameObject::FixedUpdate()
 	}
 }
 
+void dae::GameObject::BeginPlay()
+{
+	for (auto const& x : m_Components) {
+		x.second->BeginPlay();
+	}
+}
+
 void dae::GameObject::Render() const
 {
 	for (auto const& x : m_Components) {
@@ -62,14 +69,6 @@ void dae::GameObject::SetAbsoluteTransform(float x, float y)
 
 void dae::GameObject::SetAbsoluteTransform(const Transform& pos)
 {
-	//	if (!m_OriginTransform.expired())
-//	{
-//		Transform pos = Transform(x, y, 0) - *m_OriginTransform.lock().get();
-//		m_RelativeTransform.SetPosition(pos.GetPosition().x, pos.GetPosition().y, pos.GetPosition().z);
-//	}
-//	else {
-//		m_RelativeTransform.SetPosition(x, y, 0.0f);
-//	}
 	if (m_pParent == nullptr) {
 		m_RelativeTransform.SetPosition(pos);
 	}
@@ -92,17 +91,11 @@ void dae::GameObject::UpdateAbsoluteTransform()const
 	m_TransformIsDirty = false;
 }
 
-//void dae::GameObject::SetAbsolutePosition(float x, float y)
-//{
-//	if (!m_OriginTransform.expired())
-//	{
-//		Transform pos = Transform(x, y, 0) - *m_OriginTransform.lock().get();
-//		m_RelativeTransform.SetPosition(pos.GetPosition().x, pos.GetPosition().y, pos.GetPosition().z);
-//	}
-//	else {
-//		m_RelativeTransform.SetPosition(x, y, 0.0f);
-//	}
-//}
+void dae::GameObject::AddTransform(const Transform& translation)
+{
+	m_RelativeTransform + translation;
+	SetTransformDirty();
+}
 
 template<typename T>
 T* dae::GameObject::GetComponent() const

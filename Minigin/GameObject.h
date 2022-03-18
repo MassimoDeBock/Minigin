@@ -16,6 +16,7 @@ namespace dae
 	public:
 		void Update() override;
 		void FixedUpdate() override;
+		void BeginPlay() override;
 		void Render() const override;
 
 		void SetId(unsigned int id);
@@ -25,6 +26,7 @@ namespace dae
 		void SetAbsoluteTransform(float x, float y);
 		void SetAbsoluteTransform(const Transform& pos);
 		void UpdateAbsoluteTransform() const;
+		void AddTransform(const Transform& translation);
 
 		//void AddComponent(const std::shared_ptr<Component> component);
 

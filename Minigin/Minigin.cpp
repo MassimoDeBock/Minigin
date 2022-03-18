@@ -9,6 +9,7 @@
 #include "TextureComponent.h"
 #include "TextComponent.h"
 #include "FPSComponent.h"
+#include "PeterPepperPlayerController.h"
 #include "Scene.h"
 #include "MessageCommand.h"
 
@@ -82,6 +83,17 @@ void dae::Minigin::LoadGame() const
 	go->SetParent(scene.GetGameObjects("Logo"));
 	go->SetRelativeTransform(50, -40);
 	scene.Add("FPSDisplay", go);
+
+
+	go = std::make_shared<GameObject>();
+	go->AddComponent<TextureComponent>(new TextureComponent("Peter_Pepper.png"));
+	go->SetAbsoluteTransform(400, 400);
+	go->AddComponent<PeterPepperPlayerController>(new PeterPepperPlayerController(0));
+
+	scene.Add("Peter_Pepper", go);
+
+
+
 }
 
 void dae::Minigin::Cleanup()
@@ -120,6 +132,8 @@ void dae::Minigin::GameLoop()
 	input.CheckConnections();
 	input.AddCommandsToController(0, ControllerButton::A, ButtonStates::Down, new MessageCommand(std::string("oo")));
 
+
+	sceneManager.BeginPlay();
 	while (doContinue)
 	{
 		const auto currentTime = std::chrono::high_resolution_clock::now();

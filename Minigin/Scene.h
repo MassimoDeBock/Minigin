@@ -15,6 +15,7 @@ namespace dae
 
 		void Update(float deltaTime);
 		void FixedUpdate();
+		void BeginPlay();
 		void Render() const;
 		float GetDeltaTime();
 		float GetFixedTimeStep();

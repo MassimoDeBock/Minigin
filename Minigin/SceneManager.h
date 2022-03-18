@@ -11,6 +11,7 @@ namespace dae
 
 		void Update(float deltaTime);
 		void FixedUpdate();
+		void BeginPlay();
 		void Render();
 		void SetFixedTimeStep(float newFixedTimeStep);
 		float GetFixedTimeStep();

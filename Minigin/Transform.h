@@ -15,6 +15,8 @@ namespace dae
 		Transform operator+(const Transform& right);
 		Transform operator-(Transform& right);
 		Transform operator-(const Transform& right);
+		Transform operator*(Transform& right);
+
 	private:
 		glm::vec3 m_Position;
 	};

@@ -18,6 +18,14 @@ void dae::SceneManager::FixedUpdate()
 	}
 }
 
+void dae::SceneManager::BeginPlay()
+{
+	for (auto& scene : m_Scenes)
+	{
+		scene->BeginPlay();
+	}
+}
+
 void dae::SceneManager::Render()
 {
 	for (const auto& scene : m_Scenes)
