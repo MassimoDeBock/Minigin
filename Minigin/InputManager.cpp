@@ -56,7 +56,18 @@ dae::InputManager::~InputManager()
 
 bool dae::InputManager::ProcessInput()
 {
-	// todo: read the input
+	SDL_Event e;
+	while (SDL_PollEvent(&e)) {
+		if (e.type == SDL_QUIT) {
+			return false;
+		}
+		if (e.type == SDL_KEYDOWN) {
+		}
+		if (e.type == SDL_MOUSEBUTTONDOWN) {
+
+		}
+	}
+
 	for (DWORD i = 0; i < XUSER_MAX_COUNT; i++) {
 		pimpl->commandList.at(i)->ProcessInput();
 	}

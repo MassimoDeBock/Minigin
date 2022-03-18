@@ -113,6 +113,7 @@ void dae::Minigin::GameLoop()
 	auto lastTime = std::chrono::high_resolution_clock::now();
 	float lag = 0.0f;
 
+	input.CheckConnections();
 
 	while (doContinue)
 	{
