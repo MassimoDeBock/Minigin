@@ -85,7 +85,7 @@
       <Filter>Header Files\Commands</Filter>
     </ClInclude>
     <ClInclude Include="CommandList.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Commands</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -141,7 +141,7 @@
       <Filter>Source Files\Commands</Filter>
     </ClCompile>
     <ClCompile Include="CommandList.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Commands</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
