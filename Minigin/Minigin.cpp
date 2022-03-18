@@ -106,14 +106,13 @@ void dae::Minigin::GameLoop()
 {
 	auto& renderer = Renderer::GetInstance();
 	auto& sceneManager = SceneManager::GetInstance();
-	//auto& input = InputManager::GetInstance();
+	auto& input = InputManager::GetInstance();
 
 	// todo: this update loop could use some work.
 	bool doContinue = true;
 	auto lastTime = std::chrono::high_resolution_clock::now();
 	float lag = 0.0f;
 
-	//input.AddPressedCommandsToController(1, dae::ControllerButton::BACK, new ExitCommand())
 
 	while (doContinue)
 	{
@@ -121,9 +120,9 @@ void dae::Minigin::GameLoop()
 		float deltaTime = std::chrono::duration<float>(currentTime - lastTime).count();
 		lastTime = currentTime;
 		lag += deltaTime;
-		//input.ProcessInput();
+		doContinue = input.ProcessInput();
 		while (lag >= fixedTimeStep) {
-			FixedUpdate(fixedTimeStep);
+			//FixedUpdate(fixedTimeStep);
 			lag -= fixedTimeStep;
 		}
 		sceneManager.Update(deltaTime);

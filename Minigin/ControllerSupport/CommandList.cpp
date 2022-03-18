@@ -1,4 +1,3 @@
-#include "MiniginPCH.h"
 #include "CommandList.h"
 #include <memory>
 #pragma comment(lib,"XInput.lib")
@@ -46,24 +45,24 @@ dae::CommandList::~CommandList()
 void dae::CommandList::CheckConnection()
 {
 	DWORD dwResult;
-	XINPUT_STATE state;
-	ZeroMemory(&state, sizeof(XINPUT_STATE));
+		XINPUT_STATE state;
+		ZeroMemory(&state, sizeof(XINPUT_STATE));
 
-	// Simply get the state of the controller from XInput.
-	dwResult = XInputGetState(m_UserNumber, &state);
+		// Simply get the state of the controller from XInput.
+		dwResult = XInputGetState(m_UserNumber, &state);
 
-	if (dwResult == ERROR_SUCCESS)
-	{
-		// Controller is connected
-		if (!m_Controller->isConnected) {
-			m_Controller->isConnected = true;
-			std::cout << "Controller \"" << m_UserNumber << "\" just got connected\n";
+		if (dwResult == ERROR_SUCCESS)
+		{
+			// Controller is connected
+			if (!m_Controller->isConnected) {
+				m_Controller->isConnected = true;
+				std::cout << "Controller \"" << m_UserNumber << "\" just got connected\n";
+			}
 		}
-	}
-	else
-	{
-		// Controller is not connected
-	}
+		else
+		{
+			// Controller is not connected
+		}
 }
 
 void dae::CommandList::SetUserNumber(unsigned int num)
@@ -74,7 +73,7 @@ void dae::CommandList::SetUserNumber(unsigned int num)
 void dae::CommandList::CheckPressedCommand()
 {
 	for (auto& it : m_PressedCommands) {
-		if (IsPressed(it.first)) {
+		if(IsPressed(it.first)) {
 			it.second->execute();
 		}
 	}

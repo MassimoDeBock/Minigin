@@ -1,34 +1,24 @@
 #pragma once
 #include <XInput.h>
 #include "Singleton.h"
-#include <memory>
-#include "Command.h"
-#include "ControllerButtons.h"
 
 namespace dae
 {
-	class Command;
+	enum class ControllerButton
+	{
+		ButtonA,
+		ButtonB,
+		ButtonX,
+		ButtonY
+	};
 
 	class InputManager final : public Singleton<InputManager>
-
 	{
 	public:
-		InputManager();
-		~InputManager();
-
-
-		void SetTestCommands(unsigned int i);
-		void AddPressedCommandsToController(unsigned int controllerNumber, ControllerButton buttonID, Command* command);
-		void SwapPressedCommandsToController(unsigned int controllerNumber, ControllerButton buttonID, Command* command);
-
-		void ProcessInput();
-		bool HandleInput();
-		void CheckConnections();
-
-
+		bool ProcessInput();
+		bool IsPressed(ControllerButton button) const;
 	private:
-		struct Impl;
-		std::unique_ptr<Impl> pimpl;
+		XINPUT_STATE m_CurrentState{};
 	};
 
 }
