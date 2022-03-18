@@ -90,7 +90,7 @@ void dae::Minigin::LoadGame() const
 	go->AddComponent<TextureComponent>("TextureComponent", new TextureComponent("Peter_Pepper.png"));
 	go->SetAbsoluteTransform(400, 400);
 	go->AddComponent<PeterPepperPlayerController>("PeterPepperPlayerController", new PeterPepperPlayerController(0));
-	//go->GetComponent<MovementComponent>("MovementComponent")->SetMovementSpeed(Transform(10,10,0));
+	go->GetComponent<MovementComponent>("MovementComponent")->SetMovementSpeed(Transform(10,10,0));
 	scene.Add("Peter_Pepper", go);
 
 

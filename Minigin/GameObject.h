@@ -50,12 +50,13 @@ namespace dae
 		void AddChild(GameObject* newChild);
 	public:
 		template <typename T> T* GetComponent(const std::string& componentName) const {
-			std::unordered_map<std::string, Component*>::const_iterator compIt = m_Components.find(typeid(T))->second;
-			if (compIt != m_Components.end) {
-				return T(compIt);
+			std::unordered_map<std::string, Component*>::const_iterator compIt = m_Components.find(componentName);
+			if (compIt != m_Components.end()) {
+				return dynamic_cast<T*>(compIt->second);
 			}
 			return nullptr;
 		}
+
 		template <typename T> void AddComponent(const std::string& componentName, T* component) {
 			if (Component* comp = dynamic_cast<Component*>(component); comp != nullptr) {
 				comp->SetParent(this);
